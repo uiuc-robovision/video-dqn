@@ -34,6 +34,7 @@ _C.CONFIDENCE_REWARD = False
 _C.DISTRIBUTIONAL = False
 _C.KL_BACKWARDS = False
 _C.LOG_SIGMA = False
+_C.VISUALIZATION_DATA_ROOT = ""
 
 
 def get_cfg_defaults():

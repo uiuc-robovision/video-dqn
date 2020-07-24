@@ -58,7 +58,6 @@ def loopLoader(loader):
 
 
 def visualize_house(config,model,house,floor,sample_number):
-    return
     print(f'render sample: {sample_number} on {house.name}{floor}')
     figs = build_map_gibson(config,model,house,floor)
     images =np.array([util.plt.fig2img(x) for x in figs])[...,:-1]
