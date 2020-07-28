@@ -27,16 +27,18 @@ score_vals = lambda x: score_detections(x[:, 1])
 
 class QLearningRealDataset(data.Dataset):
     def __init__(self,
-                 folder='/scratch/mc48/real_videos/frames',
+                 location='/scratch/mc48/real_videos/filter_out/data.feather',
                  one_action=False,
                  value_learning=False,
                  inverse_actions=False,
                  previous_images=False,
                  confidence_reward=False,
+                 slam_actions=False,
                  gamma=0.99):
-        self.samples = pd.read_feather(f'{folder}/data.feather')
+        self.samples = pd.read_feather(location)
         self.value_learning = value_learning
         self.confidence_reward = confidence_reward
+        self.slam_actions = slam_actions
         self.one_action = one_action
         self.inverse_actions = inverse_actions
         self.gamma = gamma
@@ -88,6 +90,8 @@ class QLearningRealDataset(data.Dataset):
             gt[steps_to_reward == np.inf] = np.nan
         if self.inverse_actions:
             action = sample['inverse_actions']
+        elif self.slam_actions:
+            raise 'not implemented'
         elif self.one_action:
             action = 0
         else:
@@ -96,10 +100,12 @@ class QLearningRealDataset(data.Dataset):
 
 
 if __name__ == '__main__':
-    dataset = QLearningRealDataset('/scratch/mc48/real_videos/frames',
-                                   inverse_actions=True)
+    dataset = QLearningRealDataset(inverse_actions=True)
+    import pdb; pdb.set_trace()
+    dataset[0]
     
     samples = pd.read_feather(f'/scratch/mc48/real_videos/frames/data.feather')
+    # samples = pd.read_feather(f'/scratch/mc48/real_videos/frames/data.feather')
     samples['steps_to_reward1']
     steps_to_reward = util.pd.multi_get(samples, 'steps_to_reward')
     steps_to_reward

@@ -105,7 +105,9 @@ def build_map_gibson(config, model, house, floor):
     var_agg_map_uncropped = np.stack(variance_maps).max(0)
     # import pdb; pdb.set_trace()
     figs = []
-    types = ['mean', 'variance']
+    types = ['mean']
+    if config.DISTRIBUTIONAL:
+        types = ['mean', 'variance']
     for ty in types:
         for direct in [0, 1, 2, 3, 'max']:
             for i, label in enumerate(gibson_info.class_labels):
