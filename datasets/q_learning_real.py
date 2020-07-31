@@ -100,8 +100,11 @@ class QLearningRealDataset(data.Dataset):
 
 
 if __name__ == '__main__':
-    dataset = QLearningRealDataset(inverse_actions=True)
+    dataset = QLearningRealDataset(f'/scratch/mc48/real_videos/filter_out/data_3frame.feather',inverse_actions=True)
     import pdb; pdb.set_trace()
+    dataset.samples.loc[0,'before_image']
+    dataset.samples.loc[0,'after_image']
+    dataset.samples.loc[0,'inverse_actions']
     dataset[0]
     
     samples = pd.read_feather(f'/scratch/mc48/real_videos/frames/data.feather')
@@ -113,5 +116,5 @@ if __name__ == '__main__':
     import pdb
     print(len(dataset))
     pdb.set_trace()
-    # dataset[0][2].shape
+    # [0][2].shape
     # import pdb; pdb.set_trace()

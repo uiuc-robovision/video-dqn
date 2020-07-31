@@ -1,0 +1,11 @@
+SCORE: 'model'
+MODEL_CONFIG_LOCATION: 'configs/experiments/real_data'
+MODEL_NAME: 'detector_model_nopan'
+COMBINE_DETECTOR: True
+CONFIDENCE_THRESHOLD: 0.5
+SLAM: True
+CONSISTENCY_WEIGHT: 0.5
+BACKTRACK_REJECTION: True
+RESULT_LOCATION: 'navigation_results'
+VIDEO_LOCATION: 'navigation_videos'
+

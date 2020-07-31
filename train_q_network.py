@@ -66,6 +66,7 @@ def loopLoader(loader):
             print("reset iterator")
             i = iter(loader)
 
+
 def visualize_house(config, model, house, floor, sample_number):
     print(f'render sample: {sample_number} on {house.name}{floor}')
     figs = build_map_gibson(config, model, house, floor)
@@ -107,7 +108,7 @@ def run_train(config, resume_from=-1):
                                             panorama=config.PANORAMA,
                                             known=config.TRAIN_ON_GROUND_TRUTH)
     elif config.DATASET == 'real':
-        datafile = '/scratch/mc48/real_videos/filter_out/data.feather'
+        datafile = '/scratch/mc48/real_videos/filter_out/data_3frame.feather'
         dataset = QLearningRealDataset(
             datafile,
             one_action=True,
