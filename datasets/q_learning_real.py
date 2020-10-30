@@ -10,7 +10,6 @@ import util
 import cv2
 import pandas as pd
 import util.pd
-from functional import seq
 
 # Confidence thresholds
 detection_thresholds = [
