@@ -7,3 +7,4 @@ vlv_model.torch
 configs/experiments/real_data/models
 configs/experiments/real_data/run*
 configs/experiments/real_data/log
+dataset/videos

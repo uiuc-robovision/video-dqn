@@ -18,6 +18,16 @@ detectron2
 
 ## Usage
 
+### Building Dataset
+
+Included are scripts to download the videos in the Youtube House Tours Dataset directly from Youtube and preprocess them for Q-Learning.
+```bash
+cd dataset
+
+# Downloads youtube videos
+python ./extract_frames.py
+```
+
 ### Training
 
 Train a model using the Youtube House Tours Dataset

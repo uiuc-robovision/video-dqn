@@ -126,7 +126,7 @@ pyparsing==2.4.5
 pyrsistent==0.15.7
 python-dateutil==2.8.1
 python-utils==2.4.0
-pytube==9.6.0
+pytube==9.7.0
 pytube3==9.6.4
 pytz==2019.3
 PyWavelets==1.1.1
