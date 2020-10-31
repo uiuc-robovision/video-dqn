@@ -1,3 +1,6 @@
 *.pyc
 navigation_videos
 navigation_results
+navigation_videos_pretrained
+navigation_results_pretrained
+vlv_model.torch

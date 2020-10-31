@@ -48,9 +48,10 @@ def build_model(config):
     return model.to(config.device)
 
 
-def load_model_number(config, number):
+def load_model_number(config, number,model_loc=None):
     model = build_model(config)
-    model_loc = f'{config.folder}/models/sample{number}.torch'
+    if model_loc is None:
+        model_loc = f'{config.folder}/models/sample{number}.torch'
     snapshot = torch.load(model_loc, map_location=config.device)
     print(f'Loading model from: {model_loc}')
     model.load_state_dict(snapshot['model_state_dict'])

@@ -1,11 +1,12 @@
 SCORE: 'model'
 MODEL_CONFIG_LOCATION: 'configs/experiments/real_data'
 MODEL_NAME: 'real_data'
+PRETRAINED_MODEL_LOCATION: 'vlv_model.torch'
 COMBINE_DETECTOR: True
 CONFIDENCE_THRESHOLD: 0.5
 SLAM: True
 CONSISTENCY_WEIGHT: 0.5
 BACKTRACK_REJECTION: True
-RESULT_LOCATION: 'navigation_results'
-VIDEO_LOCATION: 'navigation_videos'
+RESULT_LOCATION: 'navigation_results_pretrained'
+VIDEO_LOCATION: 'navigation_videos_pretrained'
 

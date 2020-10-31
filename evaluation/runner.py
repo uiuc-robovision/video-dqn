@@ -47,7 +47,18 @@ def run_policy(config, args):
 
     model_config = ExperimentConfig(config.MODEL_CONFIG_LOCATION,
                                     tensorboard=False)
-    model = load_model_number(model_config, config.MODEL_NUMBER)
+
+    # download model if it doesn't exist
+    if config.PRETRAINED_MODEL_LOCATION != '':
+        if not os.path.exists(config.PRETRAINED_MODEL_LOCATION):
+            import urllib.request
+            url = 'http://matthewchang.web.illinois.edu/data/vlv_model.torch'
+            print("\n\n\nDownloading Model File...")
+            urllib.request.urlretrieve(url,config.PRETRAINED_MODEL_LOCATION)
+        model_loc = config.PRETRAINED_MODEL_LOCATION
+    else:
+        model_loc = None
+    model = load_model_number(model_config, config.MODEL_NUMBER,model_loc=model_loc)
     model.eval()
 
     for epind in tqdm(range(len(episodes))):
