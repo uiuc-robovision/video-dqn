@@ -26,7 +26,7 @@ score_vals = lambda x: score_detections(x[:, 1])
 
 class QLearningRealDataset(data.Dataset):
     def __init__(self,
-                 location='/scratch/mc48/real_videos/filter_out/data.feather',
+                 location=None,
                  one_action=False,
                  value_learning=False,
                  inverse_actions=False,
@@ -96,24 +96,3 @@ class QLearningRealDataset(data.Dataset):
         else:
             raise Exception(f'not implemented')
         return bi, ai, action, reward, reward, gt, valid_mask
-
-
-if __name__ == '__main__':
-    dataset = QLearningRealDataset(f'/scratch/mc48/real_videos/filter_out/data_3frame.feather',inverse_actions=True)
-    import pdb; pdb.set_trace()
-    dataset.samples.loc[0,'before_image']
-    dataset.samples.loc[0,'after_image']
-    dataset.samples.loc[0,'inverse_actions']
-    dataset[0]
-    
-    samples = pd.read_feather(f'/scratch/mc48/real_videos/frames/data.feather')
-    # samples = pd.read_feather(f'/scratch/mc48/real_videos/frames/data.feather')
-    samples['steps_to_reward1']
-    steps_to_reward = util.pd.multi_get(samples, 'steps_to_reward')
-    steps_to_reward
-    print(dataset[0])
-    import pdb
-    print(len(dataset))
-    pdb.set_trace()
-    # [0][2].shape
-    # import pdb; pdb.set_trace()

@@ -287,7 +287,7 @@ class HabitatTestEnv:
 
 
 if __name__ == '__main__':
-    env = HabitatTestEnv( '/scratch/mc48/gibson/Ackermanville.glb', random_goal=True, panorama=False,torch_notrans=True,config_path='configs/tasks/pointnav_wide.yaml')
+    env = HabitatTestEnv( 'GIBSON_LOCATION/Ackermanville.glb', random_goal=True, panorama=False,torch_notrans=True,config_path='configs/tasks/pointnav_wide.yaml')
     env.get_observation()
     import pdb; pdb.set_trace()
     env.reset()

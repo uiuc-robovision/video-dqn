@@ -9,6 +9,8 @@ This project was developed using Python 3.7.4. Install dependencies using pip
 pip install requirements.txt
 ```
 
+Data for evaluation is from the [Gibson Database of Spaces](https://github.com/StanfordVL/GibsonEnv/blob/master/gibson/data/README.md). This project evaluates on environments from the `tiny` split.
+
 This project depends on several other projects 
 Habitat
 Habitat-api

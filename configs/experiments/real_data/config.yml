@@ -1,4 +1,4 @@
-DATASET: "real"
+DATASET: "/scratch/mc48/real_videos/filter_out/data_3frame.feather"
 PANORAMA: False
 CLASS_LABEL: 'all'
 LOSS_CLIP: 'rect'

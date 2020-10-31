@@ -12,7 +12,7 @@ import util.habitat
 from util.plt import *
 import cv2
 import re
-from datasets.habitat_visualization_data_gibson import HabitatQVisualizationDatasetGibson
+from dataloaders.habitat_visualization_data_gibson import HabitatQVisualizationDatasetGibson
 from torch.utils import data
 import matplotlib
 import matplotlib.pyplot as plt

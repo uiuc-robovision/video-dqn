@@ -4,3 +4,6 @@ navigation_results
 navigation_videos_pretrained
 navigation_results_pretrained
 vlv_model.torch
+configs/experiments/real_data/models
+configs/experiments/real_data/run*
+configs/experiments/real_data/log
