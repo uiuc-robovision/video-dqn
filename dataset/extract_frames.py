@@ -29,15 +29,15 @@ parser.add_argument('-g',
                     dest='gpu',
                     default='0',
                     help='which gpu to run on')
-parser.add_argument('location',
-                    default='videos'
+parser.add_argument('--location',
+                    default='dataset/videos',
                     help='location of downloaded files')
 args = parser.parse_args()
 os.environ["CUDA_VISIBLE_DEVICES"]=args.gpu
 
 torch.set_num_threads(4) 
 
-io_labels = pd.read_csv('io_places.txt', delimiter=' ', header=None)
+io_labels = pd.read_csv('dataset/io_places.txt', delimiter=' ', header=None)
 
 io_dict = {}
 for i in range(len(io_labels)):
@@ -125,17 +125,17 @@ def extract_frames(videopath, dest, fps=1):
 
 def extract_all_frames():
     try:
-        mkdir('frames')
+        mkdir('dataset/frames')
         print('creating frames subdirectory')
     except:
         print('frames subdirectory already exists')
-    videos = listdir('videos')
+    videos = listdir('dataset/videos')
     for vid in videos:
-        vid_id = re.match('(\d+).mp4', vid)[1]
-        subdir = 'frames/' + str(i)
+        vid_id = re.match('(.*).mp4', vid)[1]
+        subdir = 'dataset/frames/' + vid_id
         try:
             mkdir(subdir)
-            extract_frames('videos/' + video_title, subdir, fps=.5)
+            extract_frames('dataset/videos/' + vid, subdir, fps=.5)
         except FileExistsError:
             print(f'skipping {vid}')
 
@@ -195,12 +195,14 @@ def filter_frames(folder):
     }
     return data
 
-extract_all_frames()
-videos = [ f.name for f in os.scandir(args.location) if f.is_dir() ]
-# videos = videos[1204:]
+# extract_all_frames()
+videos = [ f.name for f in os.scandir('dataset/frames') if f.is_dir()]
+try: 
+    mkdir('dataset/filter_out')
+except:
+    pass
 for vid in tqdm(videos):
-    if os.path.exists('filter_out/' + vid + '_filters.npy'):
+    if os.path.exists('dataset/filter_out/' + vid + '_filters.npy'):
         continue
-    print(vid)
-    data = filter_frames(f'{args.location}/{vid}/images')
-    np.save(f'filter_out/{vid}_filters',data)
+    data = filter_frames(f'dataset/frames/{vid}')
+    np.save(f'dataset/filter_out/{vid}_filters',data)

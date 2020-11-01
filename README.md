@@ -25,7 +25,13 @@ Included are scripts to download the videos in the Youtube House Tours Dataset d
 cd dataset
 
 # Downloads youtube videos
-python ./extract_frames.py
+python dataset/download_videos.py
+# Splits out frames and filters out people and outdoor scenes
+python dataset/extract_frames.py
+# Run object detector
+python dataset/detect_real_videos.py
+# Build the dataset file
+python dataset/process_episodes_real.py
 ```
 
 ### Training

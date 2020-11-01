@@ -36,6 +36,7 @@ sleep_time = 10
 # TODO
 completed = []
 remaining = set(urls) - set(completed)
+print("Num Remaining: ",len(remaining))
 for vid_id in remaining:
     while True:
         print('starting', vid_id)
