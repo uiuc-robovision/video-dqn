@@ -1,4 +1,4 @@
-DATASET: "/scratch/mc48/real_videos/filter_out/data_3frame.feather"
+DATASET: '/data01/arjung2/filter_out/data_3frame_indoor_all.feather'
 PANORAMA: False
 CLASS_LABEL: 'all'
 LOSS_CLIP: 'rect'
@@ -8,5 +8,5 @@ GAMMA: 0.99
 CHECKPOINT_INTERVAL: 25000
 NUM_STEPS: 300000
 USE_INVERSE_ACTIONS: True
-VISUALIZATION_DATA_ROOT: "/scratch/mc48/habitat_test/rendered_data/vis_data_1500_real"
+#VISUALIZATION_DATA_ROOT: "/scratch/mc48/habitat_test/rendered_data/vis_data_1500_real"
 SEED: 4

@@ -106,7 +106,7 @@ def run_train(config, resume_from=-1):
     known_gt_data = QLearningRealDataset(datafile, one_action=True)
 
     print(f'Load data from {datafile}')
-    print(f'Reward Ration: {dataset.reward_percentage()}')
+    print(f'Reward Ratio: {dataset.reward_percentage()}')
 
     test_size = int(params['batch_size'] * 10)
     train_data = dataset
@@ -245,7 +245,8 @@ def run_train(config, resume_from=-1):
                     'optimizer_state_dict': optimizer.state_dict()
                 }, f'{config.folder}/models/sample{sample_number}.torch')
             for house, floor in houses_to_render:
-                visualize_house(config, model, house, floor, sample_number)
+                if len(config.VISUALIZATION_DATA_ROOT > 0):
+                    visualize_house(config, model, house, floor, sample_number)
 
 
 if __name__ == '__main__':

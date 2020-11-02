@@ -6,15 +6,15 @@ Training and testing code for [Semantic Visual Navigation by Watching Youtube Vi
 This project was developed using Python 3.7.4. Install dependencies using pip
 
 ```bash
-pip install requirements.txt
+pip install -r requirements.txt
 ```
+
+Additionally this project depends on [habitat-sim v0.1.4](https://github.com/facebookresearch/habitat-sim/tree/v0.1.4), [habitat-api v0.1.3](https://github.com/facebookresearch/habitat-lab/tree/v0.1.3) (now renamed to [habitat-lab](https://github.com/facebookresearch/habitat-lab)), and [detectron2 v0.1](https://github.com/facebookresearch/detectron2/tree/v0.1). The installation instructions for these projects can be found on their respective webpages linked above.
 
 Data for evaluation is from the [Gibson Database of Spaces](https://github.com/StanfordVL/GibsonEnv/blob/master/gibson/data/README.md). This project evaluates on environments from the `tiny` split.
 
-This project depends on several other projects 
-Habitat
-Habitat-api
-detectron2
+Once the gibson data has been downloaded (using the "Gibson Database for Habitat-sim" link from the site above). You will need to proved the path to that data (the folder containing navmeshes and manifest file) in one of the configuration files used at test time (see below). For our experiments we regenerated the navmeshes using an agent height of 1.25 to allow the scenes to be traversable through some low doorways and a max climb value of 0.05 to disallow climbing stairs. A description of the modifications made (which require editing the source files of habitat-sim) and the script used for regenerating the meshes can be found in `regenerate_navmeshes.rb`. This step may not be necessary for later versions of habitat-sim as they seem to have added functionality to programatically [recompute the navmeshes](https://github.com/facebookresearch/habitat-sim/pull/333) when the agent parameters change. However, this code was not tested with these versions of habitat-sim.
+
 
 ## Usage
 
