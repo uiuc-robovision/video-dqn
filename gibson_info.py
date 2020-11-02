@@ -188,9 +188,9 @@ class GibsonHouse:
     def semantics(self):
         if self._semantics is None:
             if self.data['split_tiny'] != 'none':
-                folder = '/scratch/mc48/gibson_tiny_annotations/verified_graph'
+                folder = f'{os.environ["SCENE_GRAPH_LOCATION_TINY"]}/verified_graph'
             else:
-                folder = '/scratch/mc48/3DSceneGraph_medium'
+                raise Exception(f'no annotations')
             self._semantics = np.load(f'{folder}/3DSceneGraph_{self.name}.npz',
                                       allow_pickle=True)['output'][()]
         return self._semantics
@@ -292,19 +292,19 @@ class GibsonHouse:
         return np.array([point[0], point[2], -point[1]])
 
     def get_env(self, **kwargs):
-        return HabitatTestEnv(f'/scratch/mc48/gibson/{self.name}.glb',
+        return HabitatTestEnv(f'{os.environ["GIBSON_LOCATION"]}/{self.name}.glb',
                               **kwargs)
 
 
 def get_houses(split=['train', 'val']):
-    with open('/scratch/mc48/gibson/metadata.json') as json_file:
+    with open(f'{os.environ["GIBSON_LOCATION"]}/metadata.json') as json_file:
         data = json.load(json_file)
     houses = [d for d in data if d['split_tiny'] in split]
     return [GibsonHouse(d) for d in houses]
 
 
 def get_houses_medium(split=['train', 'val']):
-    with open('/scratch/mc48/gibson/metadata.json') as json_file:
+    with open(f'{os.environ["GIBSON_LOCATION"]}/metadata.json') as json_file:
         data = json.load(json_file)
     houses = [d for d in data if d['split_medium'] in split]
     return [
@@ -313,7 +313,7 @@ def get_houses_medium(split=['train', 'val']):
 
 
 def get_house(name):
-    with open('/scratch/mc48/gibson/metadata.json') as json_file:
+    with open(f'{os.environ["GIBSON_LOCATION"]}/metadata.json') as json_file:
         data = json.load(json_file)
     return [GibsonHouse(d) for d in data if d['id'] == name][0]
 
@@ -365,7 +365,7 @@ medium_inverse_train_names = [
 
 
 def get_house_split(split):
-    with open('/scratch/mc48/gibson/metadata.json') as json_file:
+    with open(f'{os.environ["GIBSON_LOCATION"]}/metadata.json') as json_file:
         data = json.load(json_file)
 
     if split == 'medium_inverse_train':

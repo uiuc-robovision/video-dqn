@@ -74,5 +74,4 @@ for ep in tqdm(episodes):
         for i in range(len(ind)):
             ep_res[ind[i].item()] = vals[i]
     results[ep]=ep_res
-# np.save(f'arjun_real_detections_raw',results)
 np.save(f'{vid_location}/real_detections_raw',results)

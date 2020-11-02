@@ -94,23 +94,10 @@ if __name__ == '__main__':
         model.eval()
         model.cuda()
 
-    # before_image, after_image, detector_values, terminal, pseudo_action, steps_to_reward
-
-    # results = np.load(f'{args.location}/real_detections_raw.npy',
-                      # allow_pickle=True)[()]
-
-    # results = np.load(f'{args.location}/real_detections_raw.npy',
-    #                   allow_pickle=True)[()]
-    # results = np.load('/newdata01/arjung2/arjun_real_detections_raw_combined.npy', allow_pickle=True)[()]   # Change [1/3]
-    # results = np.load('/newdata01/arjung2/arjun_real_detections_raw_indoor_not_intersect_combined.npy', allow_pickle=True)[()]
     results = np.load(f'{args.location}/frames/real_detections_raw.npy', allow_pickle=True)[()]
 
-    # skip = ['vO8eopHy_RA']
     skip = []
-    # missing = [k for k in results.keys() if not os.path.exists(f'/scratch/arjung2/videos/{k}')]
     all_samples = pd.DataFrame()
-    import pdb; pdb.set_trace()
-    results
     for ep_id, res in tqdm(results.items()):
         if ep_id in skip:
             continue
@@ -122,7 +109,7 @@ if __name__ == '__main__':
         if len(im_ids) == 0:
             continue
 
-        filename = lambda x: f'dataset/frames/{ep_id}/frame%04d.jpg' % (x)
+        filename = lambda x: f'dataset/frames/{ep_id}/%04d.jpg' % (x)
         valid_frame_new = lambda x: os.path.exists(filename(x))
 
         '''
@@ -175,6 +162,7 @@ if __name__ == '__main__':
             all_samples = pd.concat((all_samples, sample_frame))
 
     if inverse_actions:
+        print("Start inverse labeling")
         all_acts = []
 
         ims = np.stack(

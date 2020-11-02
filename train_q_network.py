@@ -89,11 +89,12 @@ def run_train(config, resume_from=-1):
     torch.backends.cudnn.benchmark = False
     print(f"Using: {config.device}")
     # gibson_houses = get_houses()
-    houses_to_render = [("Allensville", 0), ("Beechwood", 1), ("Darden", 0),
-                        ("Darden", 1), ("Markleeville", 1), ("Merom", 1),
-                        ("Arkansaw", 1), ("Pomaria", 0)]
-    houses_to_render = list(
-        map(lambda x: (get_house(x[0]), x[1]), houses_to_render))
+    if config.VISUALIZATION_DATA_ROOT != "":
+        houses_to_render = [("Allensville", 0), ("Beechwood", 1), ("Darden", 0),
+                            ("Darden", 1), ("Markleeville", 1), ("Merom", 1),
+                            ("Arkansaw", 1), ("Pomaria", 0)]
+        houses_to_render = list(
+            map(lambda x: (get_house(x[0]), x[1]), houses_to_render))
     params = {'batch_size': 16, 'num_workers': 8, 'drop_last': True}
     datafile = config.DATASET
     dataset = QLearningRealDataset(
