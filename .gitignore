@@ -11,3 +11,4 @@ dataset/videos
 dataset/frames
 dataset/filter_out
 alexnet_places365.pth.tar
+inverse_model.torch

@@ -3,22 +3,16 @@ import torch
 import os
 import numpy as np
 
-import habitat
 import cv2
 from matplotlib import pyplot as plt
-import util.habitat
 import re
 import util.cv2
 import util
 from util.plt import show
-from habitat_sim.utils import common as hutil
-from habitat.tasks.nav.shortest_path_follower import ShortestPathFollower
 from time import sleep, time
-from habitat_test_env import HabitatTestEnv
 import json
 import random
 from async_data_writer import AsyncLambdaRunner, ensure_folders, numpy_writer
-from gibson_info import get_house_split, class_labels
 from tqdm import tqdm
 from detectron2.config import get_cfg
 from detectron2.engine.defaults import DefaultPredictor
@@ -28,13 +22,14 @@ from torch.utils import data
 
 os.environ["CUDA_VISIBLE_DEVICES"]='4'
 
-vid_location = './frames'
+vid_location = 'dataset/frames'
+class_labels = sorted(['bed', 'chair', 'couch', 'dining table', 'toilet'])
 
 # threshes = [32079.0, 11088.0, 24084.0, 13872.0, 5343.0]
 
 def get_predictor():
     cfg = get_cfg()
-    cfg.merge_from_file('../configs/detectron/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml')
+    cfg.merge_from_file('configs/detectron/COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x.yaml')
     cfg.MODEL.DEVICE = 'cuda'
     cfg.MODEL.WEIGHTS = "detectron2://COCO-InstanceSegmentation/mask_rcnn_R_50_FPN_3x/137849600/model_final_f10217.pkl"
     return DefaultPredictor(cfg)
@@ -63,8 +58,8 @@ results = {}
 
 for ep in tqdm(episodes):
     folder = f'{vid_location}/{ep}'
-    fils = util.files(folder,'frame(\d+).jpg')
-    inds = [int(re.match('frame(\d+).jpg',fil)[1]) for fil in fils]
+    fils = util.files(folder,'(\d+).jpg')
+    inds = [int(re.match('(\d+).jpg',fil)[1]) for fil in fils]
     full_files = [folder+'/'+f for f in fils]
     res = list(zip(inds,full_files))
     dataset = DetectorRealDataset(res,predictor=predictor)

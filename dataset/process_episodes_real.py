@@ -76,13 +76,18 @@ if __name__ == '__main__':
                         default='0',
                         help='which gpu to run on')
     inverse_actions = True
-    parser.add_argument('--location', default='dataset/frames', help='folder root of what to process')
+    parser.add_argument('--location', default='dataset', help='folder root of what to process')
     args = parser.parse_args()
     os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 
     if inverse_actions:
+        if not os.path.exists('inverse_model.torch'):
+            import urllib.request
+            url = 'http://matthewchang.web.illinois.edu/data/inverse_model.torch'
+            print("\n\n\nDownloading Inverse Model File...")
+            urllib.request.urlretrieve(url,'inverse_model.torch')
         # 40k version
-        model_path = '/scratch/arjung2/runs_gibson_inverse/inv_40k_save/model-58.pth'
+        model_path = 'inverse_model.torch'
         # set up model
         model = inverse_action.model()
         model.load_state_dict(torch.load(model_path, map_location='cpu'))
@@ -98,35 +103,27 @@ if __name__ == '__main__':
     #                   allow_pickle=True)[()]
     # results = np.load('/newdata01/arjung2/arjun_real_detections_raw_combined.npy', allow_pickle=True)[()]   # Change [1/3]
     # results = np.load('/newdata01/arjung2/arjun_real_detections_raw_indoor_not_intersect_combined.npy', allow_pickle=True)[()]
-    results = np.load('arjun_real_detections_raw_indoor_not_intersect.npy', allow_pickle=True)[()]
+    results = np.load(f'{args.location}/frames/real_detections_raw.npy', allow_pickle=True)[()]
 
-    skip = ['vO8eopHy_RA']
+    # skip = ['vO8eopHy_RA']
+    skip = []
     # missing = [k for k in results.keys() if not os.path.exists(f'/scratch/arjung2/videos/{k}')]
     all_samples = pd.DataFrame()
+    import pdb; pdb.set_trace()
+    results
     for ep_id, res in tqdm(results.items()):
         if ep_id in skip:
             continue
-        filters = np.load(f'{args.location}/{ep_id}_filters.npy',
+        filters = np.load(f'{args.location}/filter_out/{ep_id}_filters.npy',
                           allow_pickle=True)[()]
-        # print("filters: ", filters)
         valid_frame = lambda x: x in filters[
             'indoor_locs'] and x not in filters['person_locs']
         im_ids = sorted(res.keys())
         if len(im_ids) == 0:
             continue
 
-        # filename = lambda x: f'{args.location}/{ep_id}/%04d.jpg' % (x)
-        # filename = lambda x: f'/scratch/arjung2/videos/{ep_id}/images/frame%04d.jpg' % (x)
-        # filename = lambda x: f'/newdata01/arjung2/videos_intersect/{ep_id}/images/frame%04d.jpg' % (x)   # Change [2/3]
-        filename = lambda x: f'/newdata01/arjung2/videos_indoor_not_intersect/{ep_id}/images/frame%04d.jpg' % (x)
-
+        filename = lambda x: f'dataset/frames/{ep_id}/frame%04d.jpg' % (x)
         valid_frame_new = lambda x: os.path.exists(filename(x))
-        
-        # print(filename)
-        # print(im_ids)
-        # print(ep_id)
-
-        # raise Exception('breakpoint')
 
         '''
         condition for valid_frame used below, i.e. valid_frame(i) and valid_frame_new(i), is actually redundant.
@@ -138,22 +135,14 @@ if __name__ == '__main__':
         # works like python range
         episode_ranges = []
         episode_started = None
-        # for i in range(1, len(im_ids) + 2):
         for i in range(1, max(im_ids) + 2):
-            # print(f'valid_frame({i}): {valid_frame(i) and valid_frame_new(i)}')
-            # print(f'valid_frame({i}): {valid_frame(i)}')
-            # if valid_frame(i) and episode_started is None:
             if valid_frame(i) and valid_frame_new(i) and episode_started is None:
                 episode_started = i
-                # print(f'episode_started: {episode_started}')
-            # elif episode_started is not None and not (valid_frame(i)):
             elif episode_started is not None and not (valid_frame(i) and valid_frame_new(i)):
                 episode_ranges.append((episode_started, i))
                 episode_started = None
-                # print(f'episode_started: {episode_started}')
         if episode_started is not None:
             raise Exception(f'bad start')
-        # episode_ranges
         for start, stop in episode_ranges:
             if stop <= start + 3:
                 continue

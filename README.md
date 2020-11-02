@@ -26,7 +26,9 @@ cd dataset
 
 # Downloads youtube videos
 python dataset/download_videos.py
-# Splits out frames and filters out people and outdoor scenes
+# Splits out frames
+python dataset/extract_frames.py --dump
+# Find frames with people and outdoor scenes
 python dataset/extract_frames.py
 # Run object detector
 python dataset/detect_real_videos.py

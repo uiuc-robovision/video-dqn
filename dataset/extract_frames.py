@@ -29,6 +29,7 @@ parser.add_argument('-g',
                     dest='gpu',
                     default='0',
                     help='which gpu to run on')
+parser.add_argument('-d','--dump',action='store_true',help='dump frames from video files')
 parser.add_argument('--location',
                     default='dataset/videos',
                     help='location of downloaded files')
@@ -170,10 +171,10 @@ def classify_indoors(image_file):
 def get_labels(folder):
     person_labels = []
     io_labels = []
-    image_files = util.files(folder,'frame\d+.jpg$')
+    image_files = util.files(folder,'\d+.jpg$')
     img_range = range(1, len(image_files) + 1)
     for img_no in tqdm(img_range):
-        img = Image.open(folder + '/frame%04d.jpg' % (img_no))
+        img = Image.open(folder + '/%04d.jpg' % (img_no))
         io_labels.append(classify_indoors(img))
         person_labels.append(classify_person(img))
         img.close()
@@ -195,14 +196,16 @@ def filter_frames(folder):
     }
     return data
 
-# extract_all_frames()
-videos = [ f.name for f in os.scandir('dataset/frames') if f.is_dir()]
-try: 
-    mkdir('dataset/filter_out')
-except:
-    pass
-for vid in tqdm(videos):
-    if os.path.exists('dataset/filter_out/' + vid + '_filters.npy'):
-        continue
-    data = filter_frames(f'dataset/frames/{vid}')
-    np.save(f'dataset/filter_out/{vid}_filters',data)
+if args.dump:
+    extract_all_frames()
+else:
+    videos = [ f.name for f in os.scandir('dataset/frames') if f.is_dir()]
+    try: 
+        mkdir('dataset/filter_out')
+    except:
+        pass
+    for vid in tqdm(videos):
+        if os.path.exists('dataset/filter_out/' + vid + '_filters.npy'):
+            continue
+        data = filter_frames(f'dataset/frames/{vid}')
+        np.save(f'dataset/filter_out/{vid}_filters',data)
