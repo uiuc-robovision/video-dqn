@@ -115,7 +115,7 @@ QtPy==1.9.0
 requests==2.24.0
 requests-oauthlib==1.3.0
 retrying==1.3.3
-rsa==4.0
+rsa==4.7
 sacred==0.8.1
 scikit-fmm==2019.1.30
 scikit-image==0.16.2
